@@ -4,8 +4,9 @@
 #
 ################################################################################
 
-NORNS_VERSION = v2.0.1
-NORNS_SITE = $(call github,monome,norns,$(NORNS_VERSION))
+#NORNS_VERSION = v2.0.1
+NORNS_VERSION = 367c7904157d0ade348e0aa50a8d9321b8fda28a
+NORNS_SITE = $(call github,ngwese,norns,$(NORNS_VERSION))
 NORNS_LICENSE = ISC
 NORNS_LICENSE_FILES = LICENSE.txt
 NORNS_INSTALL_STAGING = YES
