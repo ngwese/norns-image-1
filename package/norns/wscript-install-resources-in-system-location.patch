@@ -1,59 +1,32 @@
-From da328593c1aa599429f6de29f9b7f01143dbde5d Mon Sep 17 00:00:00 2001
-From: Simon van der Veldt <simon.vanderveldt@gmail.com>
-Date: Fri, 31 May 2019 23:24:19 +0200
+From d79f4605b9954781b7b7759eddb80f4a02dbaf0a Mon Sep 17 00:00:00 2001
+From: Greg Wuller <greg@afofo.com>
+Date: Mon, 2 Sep 2019 22:47:42 -0700
 Subject: [PATCH] wscript: Install resources in system location
 
 ---
- lua/core/config.lua          | 5 +++--
- matron/src/hardware/screen.c | 9 ++++-----
- wscript                      | 6 +++++-
- 3 files changed, 12 insertions(+), 8 deletions(-)
+ lua/core/config.lua          | 2 +-
+ matron/src/hardware/screen.c | 3 +--
+ wscript                      | 4 ++++
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/lua/core/config.lua b/lua/core/config.lua
-index fc6b9d3..86458ae 100644
+index fc6b9d3..b2283f4 100644
 --- a/lua/core/config.lua
 +++ b/lua/core/config.lua
-@@ -3,13 +3,14 @@
- -- add some stuff to package.path
+@@ -4,7 +4,7 @@
  -- this consists of search patterns lua will use for require('foo')
  
--local home = os.getenv('HOME')
+ local home = os.getenv('HOME')
 -local norns = home..'/norns/lua'
 +local norns = '/usr/share/norns/lua'
  local sys = norns..'/?.lua;'
  local core = norns..'/core/?.lua;'
  local params = norns..'/core/params/?.lua;'
- local lib = norns..'/lib/?.lua;'
- local softcut = norns..'/softcut/?.lua;'
-+
-+local home = os.getenv('HOME')
- local dust = home..'/dust/code/?.lua;'
- 
- package.path = sys..core..params..lib..softcut..dust..package.path
 diff --git a/matron/src/hardware/screen.c b/matron/src/hardware/screen.c
-index 7bf3ac4..b9d796a 100644
+index 1cf064d..7fa5763 100644
 --- a/matron/src/hardware/screen.c
 +++ b/matron/src/hardware/screen.c
-@@ -139,10 +139,10 @@ handle_allocate_error:
- void screen_display_png(const char *filename, double x, double y){
- 	int img_w, img_h;
- 	//fprintf(stderr, "loading: %s\n", filename);
--	
-+
- 	image = cairo_image_surface_create_from_png (filename);
- 	if(image == NULL) { return; }
--	
-+
- 	img_w = cairo_image_surface_get_width (image);
- 	img_h = cairo_image_surface_get_height (image);
- 
-@@ -246,13 +246,12 @@ void screen_init(void) {
-     for (int i=0; i<NUM_FONTS; ++i) {
-       fprintf(stderr, "  %d: %s\n", i, font_path[i]);
-     }
--    
-+
-     char filename[256];
+@@ -254,8 +254,7 @@ void screen_init(void) {
  
      for(int i = 0; i < NUM_FONTS; i++) {
          // FIXME should be path relative to norns/
@@ -64,19 +37,10 @@ index 7bf3ac4..b9d796a 100644
          status = FT_New_Face(value, filename, 0, &face[i]);
          if(status != 0) {
 diff --git a/wscript b/wscript
-index 6b928f5..81e466b 100644
+index 0c2a3ae..98188f7 100644
 --- a/wscript
 +++ b/wscript
-@@ -36,7 +36,7 @@ def configure(conf):
-     conf.check_cfg(package='lua53', args=['--cflags', '--libs'])
-     conf.check_cfg(package='nanomsg', args=['--cflags', '--libs'])
-     conf.check_cfg(package='avahi-compat-libdns_sd', args=['--cflags', '--libs'])
--    conf.check_cfg(package='sndfile', args=['--cflags', '--libs'])	
-+    conf.check_cfg(package='sndfile', args=['--cflags', '--libs'])
- 
-     conf.check_cc(msg='Checking for libmonome',
-         define_name='HAVE_LIBMONOME',
-@@ -66,3 +66,7 @@ def build(bld):
+@@ -69,3 +69,7 @@ def build(bld):
      bld.recurse('ws-wrapper')
      bld.recurse('sc')
      bld.recurse('crone')
@@ -85,5 +49,5 @@ index 6b928f5..81e466b 100644
 +    bld.install_files('${PREFIX}/share/norns', bld.path.ant_glob('resources/**/*'), relative_trick=True)
 +    bld.install_files('${PREFIX}/share/norns', bld.path.ant_glob('lua/**/*'), relative_trick=True)
 -- 
-2.21.0
+2.20.1
 
