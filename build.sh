@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xe
 
-IMAGE=buildroot:2019.08-rc2
+IMAGE=buildroot:2019.08
 
 CONFIG=rpi4_norns_open_defconfig
 
