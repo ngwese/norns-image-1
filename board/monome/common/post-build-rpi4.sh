@@ -21,6 +21,10 @@ do
 	cp -v ${OVERLAYS_BUILD_OUTPUT}/${overlay}.dtbo ${OVERLAYS_TARGET}/
 done
 
+# customize kernel args and enable overlays
+cp -v ${BOARD_DIR}/cmdline-rpi4.txt ${BINARIES_DIR}/rpi-firmware/cmdline.txt
+cp -v ${BOARD_DIR}/config-rpi4.txt ${BINARIES_DIR}/rpi-firmware/config.txt
+
 # break out into common post-build
 ln -fs ../norns.target \
 		${TARGET_DIR}/etc/systemd/system/multi-user.target.wants/norns.target

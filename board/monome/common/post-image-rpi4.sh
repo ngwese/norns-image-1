@@ -7,6 +7,7 @@ BOARD_NAME="rpi4"
 GENIMAGE_CFG="${BOARD_DIR}/genimage-${BOARD_NAME}.cfg"
 GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 
+# FIXME?: disable all of this now that custom config.txt and cmdline.txt files are being added in post-build-rpi4.sh
 for arg in "$@"
 do
 	case "${arg}" in
