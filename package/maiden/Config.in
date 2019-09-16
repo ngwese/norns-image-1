@@ -1,0 +1,8 @@
+config BR2_PACKAGE_MAIDEN
+	bool "maiden"
+	select BR2_PACKAGE_DUST
+
+	help
+	  web based editor for norns
+
+	  https://github.com/monome/maiden
