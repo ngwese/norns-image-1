@@ -1,0 +1,10 @@
+[Unit]
+Requires=norns-maiden.socket
+
+[Service]
+Type=simple
+WorkingDirectory=/root
+ExecStart=/bin/maiden server --fd 3 --app /usr/share/maiden/app --doc /usr/share/norns/doc --data /root/dust
+
+[Install]
+WantedBy=norns.target
