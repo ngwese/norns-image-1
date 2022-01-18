@@ -1,0 +1,1 @@
+make BR2_EXTERNAL=../norns-image-1/ norns_open_rpi4_defconfig
